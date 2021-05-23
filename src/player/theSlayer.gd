@@ -26,10 +26,12 @@ var IsGrappling := false
 var pointIAmGrapplingWith: StaticBody
 
 func _ready() -> void:
+	OS.window_fullscreen = true
 #	Global.player = self
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	if event is InputEventMouseMotion:
 		$head.rotation.x += -event.relative.y * MOUSE_SENS
 		rotation.y += -event.relative.x * MOUSE_SENS
@@ -104,6 +106,7 @@ func _physics_process(delta: float) -> void:
 			IsGrappling = false
 			resetFromGrapple()
 	if Input.is_action_just_pressed("click") and $head/Camera/RayCast.is_colliding():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		if $head/Camera/RayCast.get_collider().is_in_group("grapplePoint"):
 			ySpeed = 0
 			vel.y = 0
